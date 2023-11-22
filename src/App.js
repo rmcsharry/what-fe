@@ -1,7 +1,7 @@
 import styles from './App.module.css';
 import axios from 'axios';
 import PrimaryNavbar from './components/PrimaryNavbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AuthForm from './components/AuthForm';
 import useAuthModeStore from './stores/authModeStore';
 
@@ -21,6 +21,13 @@ function App() {
   const [password, setPassword] = useState('');
   const isRegister = useAuthModeStore(state => state.isRegister);
 
+  useEffect(() => {
+    var userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+      setCurrentUser(true);
+    }
+  },[currentUser]);
+
   function submitLogout(e) {
     e.preventDefault();
     client.post(
@@ -28,6 +35,7 @@ function App() {
       {withCredentials: true}
     ).then(function(res) {
       setCurrentUser(false);
+      localStorage.removeItem('userEmail');
     });
   }
 
@@ -36,8 +44,8 @@ function App() {
     const url = isRegister ? "/api/register" : "/api/login";
     const data = isRegister ? { email, username, password } : { email, password };
     client.post(url, data).then(function (res) {
-      console.log(res);
       setCurrentUser(true);
+      localStorage.setItem('userEmail', res.data.email);
     });
   }
 
