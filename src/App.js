@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import axios from 'axios';
+import PrimaryNavbar from './components/PrimaryNavbar';
+import { useState } from 'react';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -12,22 +14,21 @@ const client = axios.create({
 });
 
 function App() {
+  const [currentUser, setCurrentUser] = useState();
+
+  function submitLogout(e) {
+    e.preventDefault();
+    client.post(
+      "/api/logout",
+      {withCredentials: true}
+    ).then(function(res) {
+      setCurrentUser(false);
+    });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <PrimaryNavbar currentUser={currentUser} submitLogout={submitLogout} />
     </div>
   );
 }
