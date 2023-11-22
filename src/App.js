@@ -1,18 +1,9 @@
 import styles from './App.module.css';
-import axios from 'axios';
 import PrimaryNavbar from './components/PrimaryNavbar';
 import { useState, useEffect } from 'react';
 import AuthForm from './components/AuthForm';
 import useAuthModeStore from './stores/authModeStore';
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
-const client = axios.create({
-  baseURL: "http://127.0.0.1:8000",
-});
+import axiosClient from './api/axiosClient';
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
@@ -30,7 +21,7 @@ function App() {
 
   function submitLogout(e) {
     e.preventDefault();
-    client.post(
+    axiosClient.post(
       "/api/logout",
       {withCredentials: true}
     ).then(function(res) {
@@ -43,7 +34,7 @@ function App() {
     e.preventDefault();
     const url = isRegister ? "/api/register" : "/api/login";
     const data = isRegister ? { email, username, password } : { email, password };
-    client.post(url, data).then(function (res) {
+    axiosClient.post(url, data).then(function (res) {
       setCurrentUser(true);
       localStorage.setItem('userEmail', res.data.email);
     });
