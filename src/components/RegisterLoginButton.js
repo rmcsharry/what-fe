@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
-
+import useAuthModeStore from '../stores/authModeStore';
 
 function RegisterLoginButton() {
-  const [isRegistration, setIsRegistration] = useState(false);
-
-  const handleToggle = () => {
-    setIsRegistration(!isRegistration);
-  }
+  const toggleAuthMode = useAuthModeStore(state => state.toggleAuthMode);
+  const isRegister = useAuthModeStore(state => state.isRegister);
 
   return (
-    <Button type="button" variant="light" onClick={handleToggle}>{isRegistration ? 'Register' : 'Login'}</Button>
+    <Button type="button" variant="light" onClick={toggleAuthMode}>
+      Go to {isRegister ? 'Login' : 'Register'}
+    </Button>
   )
 }
 
