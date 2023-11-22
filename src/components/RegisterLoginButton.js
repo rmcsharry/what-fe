@@ -5,7 +5,7 @@ import useAuthStore from '../stores/authModeStore';
 function RegisterLoginButton() {
   const toggleAuthMode = useAuthStore(state => state.toggleAuthMode);
   const isRegister = useAuthStore(state => state.isRegister);
-  const setAuthError = useAuthStore(state => state.setError);
+  const setAuthError = useAuthStore(state => state.setAuthError);
 
   const handleClick = () => {
     toggleAuthMode();

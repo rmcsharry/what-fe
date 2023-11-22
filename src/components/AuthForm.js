@@ -8,7 +8,7 @@ import useRegister from '../api/useRegister';
 function AuthForm({ setIsLoggedIn }) {
   const isRegister = useAuthStore(state => state.isRegister);
   const authError = useAuthStore(state => state.authError);
-  const setAuthError = useAuthStore(state => state.setError);
+  const setAuthError = useAuthStore(state => state.setAuthError);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
