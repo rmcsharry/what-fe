@@ -5,7 +5,7 @@ function PrimaryNavbar({ currentUser, submitLogout }) {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand>{currentUser ? "What.Test - Richard McSharry" : "Authentication App"}</Navbar.Brand>
+        <Navbar.Brand>What.Test - Richard McSharry</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -14,6 +14,9 @@ function PrimaryNavbar({ currentUser, submitLogout }) {
                 <Button type="submit" variant="light">Log out</Button>
               </form>
             )}
+          </Navbar.Text>
+          <Navbar.Text>
+            {currentUser && currentUser.email}
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>
