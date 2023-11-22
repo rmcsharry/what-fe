@@ -5,7 +5,7 @@ import useAuthModeStore from '../stores/authModeStore';
 import useLogin from '../api/useLogin';
 import useRegister from '../api/useRegister';
 
-function AuthForm({ setCurrentUser }) {
+function AuthForm({ setIsLoggedIn }) {
   const isRegister = useAuthModeStore(state => state.isRegister);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ function AuthForm({ setCurrentUser }) {
     login(({ email, password }), {
       onSuccess: (res) => {
         console.log(res)
-        setCurrentUser(true);
+        setIsLoggedIn(true);
         localStorage.setItem('userEmail', res.email);
       },
       onError: (err) => {
@@ -30,7 +30,7 @@ function AuthForm({ setCurrentUser }) {
     register(({ email, password, username }), {
       onSuccess: (res) => {
         console.log(res)
-        setCurrentUser(true);
+        setIsLoggedIn(true);
         localStorage.setItem('userEmail', res.email);
       },
       onError: (err) => {

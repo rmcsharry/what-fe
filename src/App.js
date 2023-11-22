@@ -6,14 +6,14 @@ import axiosClient from './api/axiosClient';
 
 
 function App() {
-  const [currentUser, setCurrentUser] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState();
  
   useEffect(() => {
     var userEmail = localStorage.getItem('userEmail');
     if (userEmail) {
-      setCurrentUser(true);
+      setIsLoggedIn(true);
     }
-  },[currentUser]);
+  },[isLoggedIn]);
 
   // TODO refactor to use ReactQuery
   function submitLogout(e) {
@@ -22,19 +22,19 @@ function App() {
       "/api/logout",
       {withCredentials: true}
     ).then(function(res) {
-      setCurrentUser(false);
+      setIsLoggedIn(false);
       localStorage.removeItem('userEmail');
     });
   }
 
   return (
     <div>
-      <PrimaryNavbar currentUser={currentUser} submitLogout={submitLogout} />
+      <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
       <div className={styles.mainContainer}>
-        {currentUser ? (<h1>You're logged in</h1>)
+        {isLoggedIn ? (<h1>You're logged in</h1>)
           : (
             <AuthForm
-              setCurrentUser={setCurrentUser}
+              setIsLoggedIn={setIsLoggedIn}
             />
         )}
       </div>

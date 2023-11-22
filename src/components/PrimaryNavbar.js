@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import RegisterLoginButton from './RegisterLoginButton';
 
-function PrimaryNavbar({ currentUser, submitLogout }) {
+function PrimaryNavbar({ isLoggedIn, submitLogout }) {
   const userEmail = localStorage.getItem('userEmail');
 
   return (
@@ -12,10 +12,10 @@ function PrimaryNavbar({ currentUser, submitLogout }) {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            {currentUser && userEmail}
+            {isLoggedIn && userEmail}
           </Navbar.Text>
           <Navbar.Text className="ms-4">
-            {currentUser ? (
+            {isLoggedIn ? (
               <form onSubmit={submitLogout}>
                 <Button type="submit" variant="light">Log out</Button>
               </form>
