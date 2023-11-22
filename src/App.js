@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div>
-      <PrimaryNavbar currentUser={currentUser} submitLogout={submitLogout} />
+      <PrimaryNavbar currentUser={currentUser} submitLogout={submitLogout}/>
     </div>
   );
 }
