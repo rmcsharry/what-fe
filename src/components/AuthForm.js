@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import styles from './AuthForm.module.css';
-import useAuthModeStore from '../stores/authModeStore';
+import useAuthStore from '../stores/authModeStore';
 import useLogin from '../api/useLogin';
 import useRegister from '../api/useRegister';
 
 function AuthForm({ setIsLoggedIn }) {
-  const isRegister = useAuthModeStore(state => state.isRegister);
+  const isRegister = useAuthStore(state => state.isRegister);
+  const authError = useAuthStore(state => state.authError);
+  const setAuthError = useAuthStore(state => state.setError);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,33 +18,32 @@ function AuthForm({ setIsLoggedIn }) {
   const submitLogin = useCallback(() => {
     login(({ email, password }), {
       onSuccess: (res) => {
-        console.log(res)
         setIsLoggedIn(true);
         localStorage.setItem('userEmail', res.email);
       },
       onError: (err) => {
-        console.log(err)
+        setAuthError(JSON.stringify(err.response.data));
       }
     });
-  }, [login, email, password]);
+  }, [login, email, password, setIsLoggedIn, setAuthError]);
 
   const submitRegister = useCallback(() => {
     register(({ email, password, username }), {
       onSuccess: (res) => {
-        console.log(res)
         setIsLoggedIn(true);
         localStorage.setItem('userEmail', res.email);
       },
       onError: (err) => {
-        console.log(err)
+        setAuthError(JSON.stringify(err.response.data));
       }
     });
-  }, [register, email, password, username]);
+  }, [register, email, password, username, setIsLoggedIn, setAuthError]);
   
   const submitAuth = useCallback((e) => {
+    setAuthError(null);
     e.preventDefault();
     isRegister ? submitRegister() : submitLogin();
-  }, [submitLogin, submitRegister, isRegister]);
+  }, [submitLogin, submitRegister, isRegister, setAuthError]);
   
   return (
     <Form onSubmit={submitAuth}>
@@ -67,6 +68,7 @@ function AuthForm({ setIsLoggedIn }) {
       <Button variant="primary" type="submit">
         {isRegister ? 'Register' : 'Login'}
       </Button>
+      {authError && <p className="mt-3 text-danger">{authError}</p>}
     </Form>
   );
 }

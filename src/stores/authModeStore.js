@@ -1,8 +1,11 @@
 import { create } from 'zustand';
 
-const useAuthModeStore = create(set => ({
+const useAuthStore = create(set => ({
+  authError: null,
   isRegister: false,
   toggleAuthMode: () => set(state => ({ isRegister: !state.isRegister })),
+  setError: (error) => set(state => ({ authError: error })),
+  clearError: () => set(state => ({ authError: null })),
 }));
 
-export default useAuthModeStore;
+export default useAuthStore;

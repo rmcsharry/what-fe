@@ -1,13 +1,19 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import useAuthModeStore from '../stores/authModeStore';
+import useAuthStore from '../stores/authModeStore';
 
 function RegisterLoginButton() {
-  const toggleAuthMode = useAuthModeStore(state => state.toggleAuthMode);
-  const isRegister = useAuthModeStore(state => state.isRegister);
+  const toggleAuthMode = useAuthStore(state => state.toggleAuthMode);
+  const isRegister = useAuthStore(state => state.isRegister);
+  const setAuthError = useAuthStore(state => state.setError);
+
+  const handleClick = () => {
+    toggleAuthMode();
+    setAuthError(null);
+  }
 
   return (
-    <Button type="button" variant="light" onClick={toggleAuthMode}>
+    <Button type="button" variant="light" onClick={handleClick}>
       Go to {isRegister ? 'Login' : 'Register'}
     </Button>
   )
