@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from './App.module.css';
 import axios from 'axios';
 import PrimaryNavbar from './components/PrimaryNavbar';
 import { useState } from 'react';
@@ -34,7 +34,8 @@ function App() {
     e.preventDefault();
     const url = authMode === 'register' ? "/api/register" : "/api/login";
     const data = authMode === 'register' ? { email, username, password } : { email, password };
-    client.post(url, data).then(function(res) {
+    client.post(url, data).then(function (res) {
+      console.log(res);
       setCurrentUser(true);
     });
   }
@@ -42,16 +43,21 @@ function App() {
   return (
     <div>
       <PrimaryNavbar currentUser={currentUser} submitLogout={submitLogout} />
-      <AuthForm
-        mode={authMode}
-        email={email}
-        setEmail={setEmail}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-        submitAuth={submitAuth}
-      />
+      <div className={styles.mainContainer}>
+        {currentUser ? (<h1>You're logged in</h1>)
+          : (
+          <AuthForm
+            mode={authMode}
+            email={email}
+            setEmail={setEmail}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            submitAuth={submitAuth}
+          />
+        )}
+      </div>
     </div>
   );
 }

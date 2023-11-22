@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, Container, Button } from 'react-bootstrap';
 import RegisterLoginButton from './RegisterLoginButton';
 
