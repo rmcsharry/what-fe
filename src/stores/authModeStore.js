@@ -1,4 +1,3 @@
-// authStore.js
 import { create } from 'zustand';
 
 const useAuthModeStore = create(set => ({

@@ -1,11 +1,49 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import styles from './AuthForm.module.css';
 import useAuthModeStore from '../stores/authModeStore';
+import useLogin from '../api/useLogin';
+import useRegister from '../api/useRegister';
 
-function AuthForm({ email, setEmail, username, setUsername, password, setPassword, submitAuth }) {
+function AuthForm({ setCurrentUser }) {
   const isRegister = useAuthModeStore(state => state.isRegister);
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { mutate: login } = useLogin(email, password);
+  const { mutate: register } = useRegister(email, password, username);
 
+  const submitLogin = useCallback(() => {
+    login(({ email, password }), {
+      onSuccess: (res) => {
+        console.log(res)
+        setCurrentUser(true);
+        localStorage.setItem('userEmail', res.email);
+      },
+      onError: (err) => {
+        console.log(err)
+      }
+    });
+  }, [login, email, password]);
+
+  const submitRegister = useCallback(() => {
+    register(({ email, password, username }), {
+      onSuccess: (res) => {
+        console.log(res)
+        setCurrentUser(true);
+        localStorage.setItem('userEmail', res.email);
+      },
+      onError: (err) => {
+        console.log(err)
+      }
+    });
+  }, [register, email, password, username]);
+  
+  const submitAuth = useCallback((e) => {
+    e.preventDefault();
+    isRegister ? submitRegister() : submitLogin();
+  }, [submitLogin, submitRegister, isRegister]);
+  
   return (
     <Form onSubmit={submitAuth}>
       <h2 className="mb-5">{isRegister ? 'Register' : 'Login'}</h2>
