@@ -3,6 +3,7 @@ import axios from 'axios';
 import PrimaryNavbar from './components/PrimaryNavbar';
 import { useState } from 'react';
 import AuthForm from './components/AuthForm';
+import useAuthModeStore from './stores/authModeStore';
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -15,10 +16,10 @@ const client = axios.create({
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
-  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const isRegister = useAuthModeStore(state => state.isRegister);
 
   function submitLogout(e) {
     e.preventDefault();
@@ -32,8 +33,8 @@ function App() {
 
   function submitAuth(e) {
     e.preventDefault();
-    const url = authMode === 'register' ? "/api/register" : "/api/login";
-    const data = authMode === 'register' ? { email, username, password } : { email, password };
+    const url = isRegister ? "/api/register" : "/api/login";
+    const data = isRegister ? { email, username, password } : { email, password };
     client.post(url, data).then(function (res) {
       console.log(res);
       setCurrentUser(true);
@@ -47,7 +48,6 @@ function App() {
         {currentUser ? (<h1>You're logged in</h1>)
           : (
           <AuthForm
-            mode={authMode}
             email={email}
             setEmail={setEmail}
             username={username}
