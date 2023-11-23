@@ -3,17 +3,12 @@ import { Navbar, Container, Button } from 'react-bootstrap';
 import RegisterLoginButton from './RegisterLoginButton';
 
 function PrimaryNavbar({ isLoggedIn, submitLogout }) {
-  const userEmail = localStorage.getItem('userEmail');
 
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
         <Navbar.Brand>What.Test</Navbar.Brand>
-        <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            {isLoggedIn && userEmail}
-          </Navbar.Text>
           <Navbar.Text className="ms-4">
             {isLoggedIn ? (
               <form onSubmit={submitLogout}>

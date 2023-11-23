@@ -8,7 +8,8 @@ import ProductTable from './components/ProductTable';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
- 
+  const userEmail = localStorage.getItem('userEmail');
+
   useEffect(() => {
     var userEmail = localStorage.getItem('userEmail');
     if (userEmail) {
@@ -31,7 +32,8 @@ function App() {
   return (
     <div>
       <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
-      <div className={styles.mainContainer}>
+      {isLoggedIn && <p className="d-flex justify-content-end pe-2">Logged in as {userEmail}</p>}
+      <div>
         {isLoggedIn ? (
           <div>
             <h1>You're logged in</h1>

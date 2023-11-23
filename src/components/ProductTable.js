@@ -44,7 +44,7 @@ const ProductTable = () => {
 
   console.log(table.getHeaderGroups())
   return (
-    <div className="p-5">
+    <div>
       <table className="table table-striped table-lg">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
