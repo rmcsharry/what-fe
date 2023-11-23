@@ -35,8 +35,7 @@ function App() {
       {isLoggedIn && <p className="d-flex justify-content-end pe-2">Logged in as {userEmail}</p>}
       <div>
         {isLoggedIn ? (
-          <div>
-            <h1>You're logged in</h1>
+          <div className="p-2">
             <ProductTable />
           </div>
         )

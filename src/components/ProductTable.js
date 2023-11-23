@@ -44,34 +44,32 @@ const ProductTable = () => {
 
   console.log(table.getHeaderGroups())
   return (
-    <div>
-      <table className="table table-striped table-lg">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} scope="col">
-                  {header.column.columnDef.header}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className="table-group-divider">
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table className="table table-striped table-lg">
+      <thead>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id} scope="col">
+                {header.column.columnDef.header}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody className="table-group-divider">
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id}>
+                {flexRender(
+                  cell.column.columnDef.cell,
+                  cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 
