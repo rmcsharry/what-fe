@@ -3,6 +3,7 @@ import PrimaryNavbar from './components/PrimaryNavbar';
 import { useState, useEffect } from 'react';
 import AuthForm from './components/AuthForm';
 import axiosClient from './api/axiosClient';
+import ProductTable from './components/ProductTable';
 
 
 function App() {
@@ -31,7 +32,12 @@ function App() {
     <div>
       <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
       <div className={styles.mainContainer}>
-        {isLoggedIn ? (<h1>You're logged in</h1>)
+        {isLoggedIn ? (
+          <div>
+            <h1>You're logged in</h1>
+            <ProductTable />
+          </div>
+        )
           : (
             <AuthForm
               setIsLoggedIn={setIsLoggedIn}
