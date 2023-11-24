@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table'
-import useProducts from '../api/useProducts';
+import useGetProducts from '../api/useGetProducts';
+import SelectedRow from './SelectedRow';
+import usePatchProduct from '../api/usePatchProduct';
 
 const columns = [
+  {
+    accessorKey: 'selected',
+    header: '☑️',
+    cell: SelectedRow
+  },
   {
     accessorKey: 'id',
     header: 'ID',
@@ -29,22 +36,24 @@ const columns = [
   }
 ]
 const ProductTable = () => {
-  // const [products, setProducts] = useState([]);
-  const { data: products, isLoading } = useProducts();
+  const { data: products, isLoading } = useGetProducts();
+  const { mutate: patchProduct } = usePatchProduct();
   
   const table = useReactTable({
     columns,
     data: isLoading ? [] : products,
-    getCoreRowModel: getCoreRowModel({
-      onRowClick: (row) => {
-        console.log('row clicked', row)
-      },
-    }),
+    getCoreRowModel: getCoreRowModel(),
+    meta: {
+      updateData: (rowIndex, columnId, value) => {  
+        const product = products[rowIndex];
+        product['selected'] = value;
+        patchProduct(product);
+      }
+    }
   });
 
-  console.log(table.getHeaderGroups())
   return (
-    <table className="table table-striped table-lg">
+    <table className="table table-striped table-sm">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>

@@ -33,7 +33,7 @@ function App() {
     <div>
       <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
       {isLoggedIn && <p className="d-flex justify-content-end pe-2">Logged in as {userEmail}</p>}
-      <div>
+      <div className="d-flex justify-content-center">
         {isLoggedIn ? (
           <div className="p-2">
             <ProductTable />

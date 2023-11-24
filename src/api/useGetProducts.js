@@ -1,7 +1,7 @@
 import { useQuery} from 'react-query'
 import axiosClient from './axiosClient';
 
-export const useProducts = () => {
+export const useGetProducts = () => {
   return useQuery({
     queryKey: 'products',
     queryFn: async () => {
@@ -11,4 +11,4 @@ export const useProducts = () => {
   })
 };
 
-export default useProducts;
+export default useGetProducts;
