@@ -3,6 +3,7 @@ import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-tabl
 import useGetProducts from '../api/useGetProducts';
 import SelectedRow from './SelectedRow';
 import usePatchProduct from '../api/usePatchProduct';
+import Loading from './Loading';
 
 const columns = [
   {
@@ -38,7 +39,7 @@ const columns = [
 const ProductTable = () => {
   const { data: products, isLoading } = useGetProducts();
   const { mutate: patchProduct } = usePatchProduct();
-  
+
   const table = useReactTable({
     columns,
     data: isLoading ? [] : products,
@@ -51,6 +52,10 @@ const ProductTable = () => {
       }
     }
   });
+
+  if (isLoading) {
+    return <Loading message='Fetching Data'/>;
+  }
 
   return (
     <table className="table table-striped table-sm">

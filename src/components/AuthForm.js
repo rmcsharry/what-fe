@@ -47,7 +47,7 @@ function AuthForm({ setIsLoggedIn }) {
   
   return (
     <Form onSubmit={submitAuth}>
-      <h2 className="mb-5">{isRegister ? 'Register' : 'Login'}</h2>
+      <h2 className="mb-4 mt-5">{isRegister ? 'Register' : 'Login'}</h2>
       <Form.Group className={`${styles.formGroup} mb-3`} controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
