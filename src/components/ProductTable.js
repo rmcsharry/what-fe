@@ -1,41 +1,44 @@
 import React from 'react'
-import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table'
+import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from '@tanstack/react-table'
 import useGetProducts from '../api/useGetProducts';
 import SelectedRow from './SelectedRow';
 import usePatchProduct from '../api/usePatchProduct';
 import Loading from './Loading';
+import ColumnSortButton from './ColumnSortButton';
 
 const columns = [
   {
     accessorKey: 'selected',
-    header: '☑️',
-    cell: SelectedRow
+    cell: SelectedRow,
+    enableSorting: false,
   },
   {
     accessorKey: 'id',
     header: 'ID',
-    cell: (props) => <p>{props.getValue()}</p>
-  }, {
+    cell: (props) => <p>{props.getValue()}</p>,
+  },
+  {
     accessorKey: 'name',
     header: 'Name',
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => <p>{props.getValue()}</p>,
   },
   {
     accessorKey: 'description',
     header: 'Description',
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => <p>{props.getValue()}</p>,
   },
   {
     accessorKey: 'price',
     header: 'Price',
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => <p>{props.getValue()}</p>,
   },
   {
     accessorKey: 'stock',
     header: 'Stock',
-    cell: (props) => <p>{props.getValue()}</p>
+    cell: (props) => <p>{props.getValue()}</p>,
   }
 ]
+  
 const ProductTable = () => {
   const { data: products, isLoading } = useGetProducts();
   const { mutate: patchProduct } = usePatchProduct();
@@ -44,13 +47,14 @@ const ProductTable = () => {
     columns,
     data: isLoading ? [] : products,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     meta: {
       updateData: (rowIndex, columnId, value) => {  
         const product = products[rowIndex];
         product['selected'] = value;
         patchProduct(product);
       }
-    }
+    },
   });
 
   if (isLoading) {
@@ -59,12 +63,22 @@ const ProductTable = () => {
 
   return (
     <table className="table table-striped table-sm">
-      <thead>
+      <thead className="align-baseline">
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <th key={header.id} scope="col">
+                {
+                  header.column.getCanSort() && (<ColumnSortButton header={header} />)
+                }
                 {header.column.columnDef.header}
+                <br />
+                {
+                  {
+                    asc: " 🔼",
+                    desc: " 🔽",
+                  }[header.column.getIsSorted()]
+                }
               </th>
             ))}
           </tr>

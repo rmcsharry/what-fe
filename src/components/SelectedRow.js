@@ -14,7 +14,7 @@ const SelectedRow = ({ getValue, row, column, table }) => {
   };
 
   return (
-    <input type="checkbox" checked={isSelected} onChange={() => toggleRowSelected()} />
+    <input className="form-check-input" role="button" type="checkbox" checked={isSelected} onChange={() => toggleRowSelected()} />
   )
 }
 
