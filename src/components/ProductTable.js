@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from '@tanstack/react-table'
 import useGetProducts from '../api/useGetProducts';
 import SelectedRow from './SelectedRow';
 import usePatchProduct from '../api/usePatchProduct';
 import Loading from './Loading';
 import ColumnSortButton from './ColumnSortButton';
+import SearchControl from './SearchControl';
 
 const columns = [
   {
@@ -40,8 +41,14 @@ const columns = [
 ]
   
 const ProductTable = () => {
-  const { data: products, isLoading } = useGetProducts();
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || '');
+  const { data: products, isLoading } = useGetProducts(searchTerm);
   const { mutate: patchProduct } = usePatchProduct();
+
+  useEffect(() => {
+    localStorage.setItem('searchTerm', searchTerm);
+    console.log(searchTerm, 'searchTerm');
+  }, [searchTerm]);
 
   const table = useReactTable({
     columns,
@@ -57,48 +64,57 @@ const ProductTable = () => {
     },
   });
 
-  if (isLoading) {
+  if (isLoading && !searchTerm) {
     return <Loading message='Fetching Data'/>;
-  }
+  };
 
   return (
-    <table className="table table-striped table-sm">
-      <thead className="align-baseline">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id} scope="col">
-                {
-                  header.column.getCanSort() && (<ColumnSortButton header={header} />)
-                }
-                {header.column.columnDef.header}
-                <br />
-                {
-                  {
-                    asc: " 🔼",
-                    desc: " 🔽",
-                  }[header.column.getIsSorted()]
-                }
-              </th>
+    <>
+      <div className="d-flex justify-content-center flex-column">
+        <SearchControl onSearch={setSearchTerm} />
+        <p className="d-flex justify-content-center mt-2">{products?.length} result(s) found</p>
+      </div>
+      <br/>
+      <div className="d-flex p-2">
+        <table className="table table-striped table-sm">
+          <thead className="align-baseline">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} scope="col">
+                    {
+                      header.column.getCanSort() && (<ColumnSortButton header={header} />)
+                    }
+                    {header.column.columnDef.header}
+                    <br />
+                    {
+                      {
+                        asc: " 🔼",
+                        desc: " 🔽",
+                      }[header.column.getIsSorted()]
+                    }
+                  </th>
+                ))}
+              </tr>
             ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className="table-group-divider">
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(
-                  cell.column.columnDef.cell,
-                  cell.getContext())}
-              </td>
+          </thead>
+          <tbody className="table-group-divider">
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext())}
+                  </td>
+                ))}
+              </tr>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
-export default ProductTable
+export default ProductTable;

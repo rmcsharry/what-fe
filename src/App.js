@@ -5,6 +5,7 @@ import AuthForm from './components/AuthForm';
 import axiosClient from './api/axiosClient';
 import ProductTable from './components/ProductTable';
 import Loading from './components/Loading';
+import SearchControl from './components/SearchControl';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
     ).then(function(res) {
       setIsLoggedIn(false);
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('searchTerm');
     });
   };
 
@@ -37,16 +39,16 @@ function App() {
     <div>
       <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
       {isLoggedIn && <p className="d-flex justify-content-end pe-2">Logged in as {userEmail}</p>}
-      <div className="d-flex justify-content-center">
-        {isLoggedIn ? (         
-          <div className="p-2">
-            <ProductTable />
-          </div>
+      <div>
+        {isLoggedIn ? (        
+          <ProductTable />
         )
           : (
-            <AuthForm
-              setIsLoggedIn={setIsLoggedIn}
-            />
+            <div className="d-flex justify-content-center">
+              <AuthForm
+                setIsLoggedIn={setIsLoggedIn}
+                />
+            </div>
         )}
       </div>
     </div>
