@@ -13,6 +13,7 @@ const columns = [
     accessorKey: 'selected',
     cell: SelectedRow,
     enableSorting: false,
+    header: '',
   },
   {
     accessorKey: 'id',
@@ -104,9 +105,10 @@ const ProductTable = () => {
       <div className="d-flex p-2 flex-column">
         <table className="table table-striped table-sm">
           <thead className="align-baseline">
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table?.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup?.headers?.map((header) => (
+                  header && (
                   <th key={header.id} scope="col">
                     {
                       header.column.getCanSort() && (<ColumnSortButton header={header} />)
@@ -120,6 +122,7 @@ const ProductTable = () => {
                       }[header.column.getIsSorted()]
                     }
                   </th>
+                  )
                 ))}
               </tr>
             ))}
