@@ -43,7 +43,7 @@ const columns = [
   
 const ProductTable = () => {
   const [searchTerm, setSearchTerm] = useState(localStorage.getItem('searchTerm') || '');
-  const { data: products, isLoading } = useGetProducts(searchTerm);
+  const { data: products, isLoading, isError } = useGetProducts(searchTerm);
   const { mutate: patchProduct } = usePatchProduct();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const ProductTable = () => {
 
   const table = useReactTable({
     columns,
-    data: isLoading ? [] : products,
+    data: isLoading || isError ? [] : products,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
