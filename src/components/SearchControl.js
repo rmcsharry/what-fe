@@ -25,7 +25,7 @@ const SearchControl = ({onSearch}) => {
     return () => {
       clearTimeout(typingTimeout);
     };
-  }, []);
+  }, [typingTimeout]);
 
   return (
     <div className="d-flex justify-content-center">
