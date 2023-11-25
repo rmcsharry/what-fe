@@ -1,12 +1,9 @@
-import styles from './App.module.css';
 import PrimaryNavbar from './components/PrimaryNavbar';
 import { useState, useEffect } from 'react';
 import AuthForm from './components/AuthForm';
 import axiosClient from './api/axiosClient';
 import ProductTable from './components/ProductTable';
 import Loading from './components/Loading';
-import SearchControl from './components/SearchControl';
-
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null means "still figuring out if logged in"
