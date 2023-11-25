@@ -48,7 +48,6 @@ const ProductTable = () => {
 
   useEffect(() => {
     localStorage.setItem('searchTerm', searchTerm);
-    console.log(searchTerm, 'searchTerm');
   }, [searchTerm]);
 
   const table = useReactTable({
