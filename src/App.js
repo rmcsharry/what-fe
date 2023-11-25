@@ -37,14 +37,12 @@ function App() {
       <PrimaryNavbar isLoggedIn={isLoggedIn} submitLogout={submitLogout} />
       {isLoggedIn && <p className="d-flex justify-content-end pe-2">Logged in as {userEmail}</p>}
       <div>
-        {isLoggedIn ? (        
+        {isLoggedIn ? (
           <ProductTable />
         )
           : (
             <div className="d-flex justify-content-center">
-              <AuthForm
-                setIsLoggedIn={setIsLoggedIn}
-                />
+              <AuthForm setIsLoggedIn={setIsLoggedIn} />
             </div>
         )}
       </div>

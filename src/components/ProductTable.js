@@ -95,7 +95,7 @@ const ProductTable = () => {
                     {'>'}
                   </Button>
                 </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>
