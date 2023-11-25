@@ -29,7 +29,8 @@ const SearchControl = ({onSearch}) => {
 
   return (
     <div className="d-flex justify-content-center">
-      <div className="d-flex justify-content-center flex-column w-50">
+      <div className="row col-6" style={{minWidth: '300px'}}>
+        <div className="col-12">
         <label htmlFor="search-input">Search:</label>
         <input
           id="search-input"
@@ -39,6 +40,7 @@ const SearchControl = ({onSearch}) => {
           value={searchTerm}
           onChange={handleChangeSearchTerm}
         />
+        </div>
       </div>
     </div>
   )
