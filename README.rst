@@ -15,4 +15,8 @@ Local development
 After setting up a project you are required to run `docker-compose run --rm web npm install` 
 in order for node modules to appear in the mounted volume.
 
-To create the yarn.lock file simply run ``yarn install``.
+You need to add a local .env file in the root folder with this var:
+
+`REACT_APP_BASE_API_URL=http://127.0.0.1:8000`
+
+You also need the api running locally in order to make requests, which is in this repo: https://github.com/rmcsharry/what-test
